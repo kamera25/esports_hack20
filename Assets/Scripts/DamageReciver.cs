@@ -30,8 +30,7 @@ public class DamageReciver : MonoBehaviour
     {
         statics.AddHitCount();
         statics.AddHP(-200);
-        statics.isInvincible = true;//無敵フラグを立てるにする
-        statics.invincibleStartTime = Time.time;//無敵開始時刻を設定する
+        statics.ResetInvincibleTime();//無敵開始時刻を設定する
 
         Destroy( _col);//プレイヤーに当てたら、玉自身は消える
     }

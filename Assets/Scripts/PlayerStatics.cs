@@ -17,7 +17,8 @@ public class PlayerStatics : MonoBehaviour
     int ballCount = 0;
     public int bulletRemain = 3;
     public bool isInvincible = false;
-    public float invincibleStartTime = 0;
+    public float nowInvincibleTime = 0F;
+    const float FIRST_INVINCIBLE_TIME = 3F;
     const int FIRST_BULLET_NUM = 3;
 
     void Start()
@@ -38,5 +39,10 @@ public class PlayerStatics : MonoBehaviour
     public void ResetBullet()
     {
         bulletRemain = FIRST_BULLET_NUM;
+    }
+
+    public voidResetInvincibleTime()
+    {
+        nowInvincibleTime = FIRST_INVINCIBLE_TIME;
     }
 }

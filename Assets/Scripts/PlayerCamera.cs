@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
+    private Transform objCamera;
+    private Transform objPlayer_CameraLink;
+    float distFlg = 0F;
+    float cameraRotateSpeed = 150F;
+    float cameraDist = 5F;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,9 +32,9 @@ public class PlayerCamera : MonoBehaviour
         {
             distFlg *= -1; //俺セッティング
             //カメラリンクオブジェクトを中心にカメラを回す
-            objCamera.transform.RotateAround(objPlayer_CameraLink.transform.position, Vector3.up, cameraRotateSpeed * Time.deltaTime * distFlg);
+            objCamera.RotateAround(objPlayer_CameraLink.position, Vector3.up, cameraRotateSpeed * Time.deltaTime * distFlg);
             //カメラリンクオブジェクトも同じだけその場で回す
-            objPlayer_CameraLink.transform.Rotate(0, cameraRotateSpeed * Time.deltaTime * distFlg, 0);
+            objPlayer_CameraLink.Rotate(0, cameraRotateSpeed * Time.deltaTime * distFlg, 0);
         }
 
 
@@ -44,10 +50,10 @@ public class PlayerCamera : MonoBehaviour
             {
                 distFlg *= -1; //俺セッティング
                 //カメラリンクオブジェクトを中心にカメラを回す
-                objCamera.transform.RotateAround(objPlayer_CameraLink.transform.position, objPlayer_CameraLink.transform.TransformDirection(Vector3.left), cameraRotateSpeed * Time.deltaTime * distFlg);
-                if (objCamera.transform.rotation.eulerAngles.x > 80)
+                objCamera.RotateAround(objPlayer_CameraLink.position, objPlayer_CameraLink.TransformDirection(Vector3.left), cameraRotateSpeed * Time.deltaTime * distFlg);
+                if (objCamera.rotation.eulerAngles.x > 80)
                 {
-                    objCamera.transform.RotateAround(objPlayer_CameraLink.transform.position, objPlayer_CameraLink.transform.TransformDirection(Vector3.left), -cameraRotateSpeed * Time.deltaTime * distFlg);
+                    objCamera.RotateAround(objPlayer_CameraLink.position, objPlayer_CameraLink.TransformDirection(Vector3.left), -cameraRotateSpeed * Time.deltaTime * distFlg);
                 }
             }
         }
@@ -67,36 +73,35 @@ public class PlayerCamera : MonoBehaviour
         //=================================================================
         // ▼▼▼カメラの難しい処理▼▼▼
         //=================================================================
-        var cameraForward = Vector3.Scale(objCamera.transform.forward, new Vector3(1, 0, 1)).normalized;  //  カメラが追従するための動作
-        Vector3 direction = cameraForward * Input.GetAxis(inputNameVertical) + objCamera.transform.right * Input.GetAxis(inputNameHorizontal);  //  テンキーや3Dスティックの入力（GetAxis）があるとdirectionに値を返す
-                                                                                                                                                //objCamera.transform.LookAt(this.transform.position);
+        var cameraForward = Vector3.Scale(objCamera.forward, new Vector3(1, 0, 1)).normalized;  //  カメラが追従するための動作
+        Vector3 direction = cameraForward * Input.GetAxis(inputNameVertical) + objCamera.right * Input.GetAxis(inputNameHorizontal);  //  テンキーや3Dスティックの入力（GetAxis）があるとdirectionに値を返す
 
         //=================================================================
         //カメラリンクオブジェクトを、カメラから向かって向こうに向ける　　（これをやらないと、カメラを上下に動かすときの回転軸がずれるため）
         //=================================================================
         Quaternion tmpQuaternion;
         //Rigitbodyを指定しないので、スクリプトでY軸固定の処理を入れている
-        tmpQuaternion = Quaternion.LookRotation(objPlayer_CameraLink.transform.position - objCamera.transform.position, Vector3.up);
+        tmpQuaternion = Quaternion.LookRotation(objPlayer_CameraLink.position - objCamera.position, Vector3.up);
         tmpQuaternion.z = 0;
         tmpQuaternion.x = 0;
-        objPlayer_CameraLink.transform.rotation = Quaternion.Lerp(objPlayer_CameraLink.transform.rotation, tmpQuaternion, 1f);
+        objPlayer_CameraLink.rotation = Quaternion.Lerp(objPlayer_CameraLink.rotation, tmpQuaternion, 1f);
 
         //=================================================================
         //カメラの追随 --- カメラの現在の向きをtmpQuaternionにバックアップし、カメラリンクオブジェクトの位置に移動させ（向きがカメラリンクオブジェクトと同じになる）、向きを戻して、カメラ距離まで引く
         //=================================================================
-        tmpQuaternion = objCamera.transform.rotation;
-        objCamera.transform.position = this.transform.position;
-        objCamera.transform.rotation = tmpQuaternion;
-        objCamera.transform.position -= objCamera.transform.forward * cameraDist;
+        tmpQuaternion = objCamera.rotation;
+        objCamera.position = this.transform.position;
+        objCamera.rotation = tmpQuaternion;
+        objCamera.position -= objCamera.forward * cameraDist;
 
 
         //=================================================================
         //　キャラクターとカメラの間に障害物があったら障害物の位置にカメラを移動させる
         //=================================================================
         RaycastHit hit;
-        if (Physics.Linecast(this.transform.position, objCamera.transform.position, out hit))
+        if (Physics.Linecast(this.transform.position, objCamera.position, out hit))
         {
-            objCamera.transform.position =  hit.point;
+            objCamera.position =  hit.point;
         }
 
     }

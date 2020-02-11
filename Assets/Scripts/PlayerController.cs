@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     private float nowInvincibleTime = 0F;
     float ReloadSpeedRatio = 0.3f;  //リロード中に移動速度が遅くなる比率。
     public float moveSpeed = 100.0f;         // 移動速度（Public＝インスペクタで調整可能）
+    
+    public float kaitenSpeed = 1200.0f;   // プレイヤーの回転速度（Public＝インスペクタで調整可能）
     private float stunAnimeTime = 0F;
 
 
@@ -136,12 +138,15 @@ public class PlayerController : MonoBehaviour
                 // 発射処理
                 Vector3 _pos = this.transform.position + this.transform.forward;// + Vector3.forward;
                 GameObject _objBullet = Instantiate( bulletPrefab, _pos, Quaternion.identity);
+                Destroy(_objBullet, 3F);
+
+                // コンポーネントにアタッチ
                 ChocoStatics _chocoStat = _objBullet.GetComponent<ChocoStatics>();
                 _chocoStat.SetOwnPlayer( stat.playerTag);
 
                 // 力を加える
                 Rigidbody rg = _objBullet.GetComponent<Rigidbody>();
-                rg.AddForce(this.transform.forward * 10, ForceMode.Impulse);
+                rg.AddForce(this.transform.forward * 10F, ForceMode.Impulse);
                 stat.bulletRemain--;
                 //SE_BALL.Play();
         }
