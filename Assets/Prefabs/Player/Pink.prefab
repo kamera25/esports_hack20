@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 2118535075650281930}
   - component: {fileID: 2118535075650281929}
   - component: {fileID: 2118535075650281928}
-  - component: {fileID: 1300161727}
-  - component: {fileID: 1300161729}
-  - component: {fileID: 1300161728}
-  - component: {fileID: 8932829329297922392}
+  - component: {fileID: 1168888657093459473}
   - component: {fileID: 1445837613270210645}
+  - component: {fileID: 1300161728}
+  - component: {fileID: 1300161729}
+  - component: {fileID: 8932829329297922392}
   m_Layer: 0
   m_Name: Pink
   m_TagString: Player
@@ -60,47 +60,43 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1300161727
-MonoBehaviour:
+--- !u!95 &1168888657093459473
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2118535075650281935}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d861f4da0dad214d8f340a228cefb6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  idoSpeed: 100
-  rotateSpeed: 3
-  kaitenSpeed: 1200
-  gravity: 20
-  jumpPower: 10
-  BulletPreFab: {fileID: 0}
-  hitCount: 0
-  ballCount: 0
-  Hp: 1000
-  isInvincible: 0
-  invincibleStartTime: 0
-  myPosiotion: {x: 0, y: 0, z: 0}
-  BulletRemain: 3
-  Reloading: 0
-  ReloadStartTime: 0
-  ReadyFlg: 0
-  StartButtonFlg: 0
---- !u!114 &1300161729
-MonoBehaviour:
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fafb103195d3c6144a4b4e3fe5c72b20, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!143 &1445837613270210645
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2118535075650281935}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04d0a8d23e82ed44cbd95674e2996cd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  serializedVersion: 2
+  m_Height: 3.64
+  m_Radius: 1
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1.85, z: 0}
 --- !u!114 &1300161728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,10 +109,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31fe8c843b7f674fa4eb20a03c08880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTag: 0
+  playerTag: 1
   Hp: 1000
+  direction: {x: 0, y: 0, z: 0}
+  bulletRemain: 3
   isInvincible: 0
-  invincibleStartTime: 0
+  nowInvincibleTime: 0
+--- !u!114 &1300161729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118535075650281935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d0a8d23e82ed44cbd95674e2996cd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8932829329297922392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,24 +139,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a70cf3170c6f3b42a6fdc359f87731d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!143 &1445837613270210645
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2118535075650281935}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  invincibleSphere: {fileID: 3920688456368876475}
+  bulletPrefab: {fileID: 714102555248091058, guid: 7f69922cf314e734999b88c2e0a6159a,
+    type: 3}
+  jumpPower: 10
+  gravity: 20
+  moveSpeed: 100
+  kaitenSpeed: 1200
 --- !u!1001 &2118535074989623702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -346,6 +345,12 @@ PrefabInstance:
 --- !u!4 &9211452282490284024 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2847442023737429286, guid: 68a1f9a6c6cb0c64cab7210919033ab0,
+    type: 3}
+  m_PrefabInstance: {fileID: 6364011117884795614}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3920688456368876475 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7942263986588713317, guid: 68a1f9a6c6cb0c64cab7210919033ab0,
     type: 3}
   m_PrefabInstance: {fileID: 6364011117884795614}
   m_PrefabAsset: {fileID: 0}

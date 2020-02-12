@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -24,11 +25,19 @@ public class PlayerController : MonoBehaviour
     public float kaitenSpeed = 1200.0f;   // プレイヤーの回転速度（Public＝インスペクタで調整可能）
     private float stunAnimeTime = 0F;
 
+    string inputNameFire1 = "Fire_";
+    string inputNameVertical = "RightAnalogStick_Y_";
+    string inputNameHorizontal = "RightAnalogStick_X_";
+    string inputNameJump = "Jump_";
+
 
     // Start is called before the first frame update
     void Start()
     {
         stat = this.GetComponent<PlayerStatics>();
+        charaCtrl = this.GetComponent<CharacterController>();
+
+        GetKeyName();
     }
 
     // Update is called once per frame
@@ -67,7 +76,7 @@ public class PlayerController : MonoBehaviour
         }
         else //  テンキーや3Dスティックの入力（GetAxis）がゼロではない時の動作
         {
-            MukiWoKaeru(direction);  //  向きを変える動作の処理を実行する（後述）
+//            MukiWoKaeru(direction);  //  向きを変える動作の処理を実行する（後述）
             //animator.Play("walk");
         }
 
@@ -77,9 +86,9 @@ public class PlayerController : MonoBehaviour
         if (charaCtrl.isGrounded)    //CharacterControllerの付いているこのオブジェクトが接地している場合の処理
         {
             moveDirection.y = 0f;  //Y方向への速度をゼロにする
-            moveDirection = direction * moveSpeed;  //移動スピードを向いている方向に与える
-
-            if ( Input.GetAxis(inputNameJump) != 0.0f) //ジャンプボタンが押されている場合
+            moveDirection = stat.direction * moveSpeed;  //移動スピードを向いている方向に与える
+            Debug.Log("Warning");
+            if ( Input.GetButtonDown(inputNameJump) ) //ジャンプボタンが押されている場合
             {
                 moveDirection.y = jumpPower; //Y方向への速度に「ジャンプパワー」の変数を代入する
                 //SE_JUMP.Play();
@@ -97,7 +106,7 @@ public class PlayerController : MonoBehaviour
     //**********************************************************************************************************************:
     void MukiWoKaeru(Vector3 mukitaiHoukou)
     {
-        Quaternion q = Quaternion.LookRotation(mukitaiHoukou);          // 向きたい方角をQuaternion型に直す
+        Quaternion q = Quaternion.LookRotation(mukitaiHoukou); // 向きたい方角をQuaternion型に直す
         transform.rotation = Quaternion.RotateTowards(transform.rotation, q, kaitenSpeed * Time.deltaTime);   // 向きを q に向けてじわ～っと変化させる.
     }
 
@@ -127,16 +136,15 @@ public class PlayerController : MonoBehaviour
     {
         nowReloadTime -= Time.deltaTime;
 
-        if( IsReload() == true && Input.GetAxis(inputNameFire1) == false)
+        if( IsReload() == true || !Input.GetButtonDown(inputNameFire1) )
         {
             return;
         }
 
         if( stat.bulletRemain >= 0F)
         {
-            
                 // 発射処理
-                Vector3 _pos = this.transform.position + this.transform.forward;// + Vector3.forward;
+                Vector3 _pos = this.transform.position + this.transform.forward;
                 GameObject _objBullet = Instantiate( bulletPrefab, _pos, Quaternion.identity);
                 Destroy(_objBullet, 3F);
 
@@ -155,6 +163,16 @@ public class PlayerController : MonoBehaviour
             nowReloadTime = FIX_RELOAD_TIME;
             stat.ResetBullet();
         }
+    }
+
+    // 入力名を取得
+    void GetKeyName()
+    {
+        string _s = Convert.ToString( (int)stat.playerTag);
+        inputNameFire1 += _s;
+        inputNameVertical += _s;
+        inputNameHorizontal += _s;
+        inputNameJump += _s;
     }
 
     bool IsReload()

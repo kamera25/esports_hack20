@@ -25,8 +25,8 @@ public class ViewCameraController : MonoBehaviour
 
     Transform playerCam1;
     Transform playerCam2;
-    PlayerScript player1;
-    PlayerScript player2;
+    public Transform player1;
+    public Transform player2;
 
     // Start is called before the first frame update
     void Start()
@@ -37,8 +37,6 @@ public class ViewCameraController : MonoBehaviour
         // キャッシュ
         playerCam1 = GameObject.Find("PlayerCamera1").transform;
         playerCam2 = GameObject.Find("PlayerCamera2").transform;
-        player1 = GameObject.Find("Player1").gameObject.GetComponent<PlayerScript>();
-        player2 = GameObject.Find("Player2").gameObject.GetComponent<PlayerScript>();
     }
 
     // Update is called once per frame
@@ -75,9 +73,9 @@ public class ViewCameraController : MonoBehaviour
         this.transform.rotation = _q;
     }
 
-    void ViewCameraMode( PlayerScript _player)
+    void ViewCameraMode( Transform _player)
     {
-        Vector3 _pos =_player.myPosiotion + new Vector3(0, 5f, -5f);
+        Vector3 _pos =_player.position + new Vector3(0, 5f, -5f);
         Quaternion _q = Quaternion.Euler(45, 0, 0);
         
         FixCameraMode( _pos, _q);
@@ -85,8 +83,8 @@ public class ViewCameraController : MonoBehaviour
 
     void ViewCameraBetweenPlayerMode()
     {
-        float dist_sqrt = Mathf.Sqrt(Vector3.Distance(player1.myPosiotion, player2.myPosiotion));
-        Vector3 _pos = (player1.myPosiotion + player2.myPosiotion) / 2 + new Vector3(0, dist_sqrt * 3.0f, -dist_sqrt * 3.0f);
+        float dist_sqrt = Mathf.Sqrt(Vector3.Distance(player1.position, player2.position));
+        Vector3 _pos = (player1.position + player2.position) / 2 + new Vector3(0, dist_sqrt * 3.0f, -dist_sqrt * 3.0f);
         Quaternion _q = Quaternion.Euler(45, 0, 0);
         
         FixCameraMode( _pos, _q);

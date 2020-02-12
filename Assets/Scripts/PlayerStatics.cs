@@ -6,13 +6,14 @@ public class PlayerStatics : MonoBehaviour
 {
     public enum Player
     {
-        one,
-        two
+        one = 1,
+        two = 2
     }
 
     public Player playerTag = Player.one;
 
     public int Hp = 1000;
+    public Vector3 direction = Vector3.zero;
     int hitCount = 0;
     int ballCount = 0;
     public int bulletRemain = 3;
@@ -41,7 +42,7 @@ public class PlayerStatics : MonoBehaviour
         bulletRemain = FIRST_BULLET_NUM;
     }
 
-    public voidResetInvincibleTime()
+    public void ResetInvincibleTime()
     {
         nowInvincibleTime = FIRST_INVINCIBLE_TIME;
     }

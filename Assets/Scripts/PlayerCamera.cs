@@ -1,108 +1,90 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerCamera : MonoBehaviour
 {
-    private Transform objCamera;
-    private Transform objPlayer_CameraLink;
-    float distFlg = 0F;
-    float cameraRotateSpeed = 150F;
-    float cameraDist = 5F;
+    float camDist = 10F;
+    float camHeight = 5F;
+    float camDeg = 0F;
+
+    public PlayerStatics player;
+
+    string inputNameL1 = "L1_";
+    string inputNameHorizontalCamera = "LeftAnalogStick_X_";
+    string inputNameVerticalCamera = "LeftAnalogStick_Y_";
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        GetKeyName();
     }
 
     // Update is called once per frame
     void Update()
     {
-        CameraProc();
+        MoveCamera();
+        VerticalProc();
+        SendDirectionForPlayer();
     }
 
-    void CameraProc()
+    void MoveCamera()
     {
         //=================================================================
-        //カメラ移動処理 左右
+        //カメラ移動処理
         //=================================================================
-        distFlg = Input.GetAxis(inputNameHorizontalCamera);
-        if (distFlg != 0)
-        {
-            distFlg *= -1; //俺セッティング
-            //カメラリンクオブジェクトを中心にカメラを回す
-            objCamera.RotateAround(objPlayer_CameraLink.position, Vector3.up, cameraRotateSpeed * Time.deltaTime * distFlg);
-            //カメラリンクオブジェクトも同じだけその場で回す
-            objPlayer_CameraLink.Rotate(0, cameraRotateSpeed * Time.deltaTime * distFlg, 0);
-        }
+        Transform _playerTrf = player.transform;
 
+        camDeg = Mathf.Clamp( Input.GetAxis(inputNameHorizontalCamera) + camDeg, 0F, 360F);
+        Vector3 _vec = new Vector3( 0F, camDeg, 0F);
 
-
-        //=================================================================
-        //カメラ移動処理 上下　（L1を押しながらだと、寄せ・引き
-        //=================================================================
-        if (Input.GetAxis(inputNameL1) == 0)//L1が押されているかどうか
-        {
-            //L1ボタンが押されていない状態で右スティックを上下左右に動かす・・・カメラの向き 上下左右 
-            distFlg = Input.GetAxis(inputNameVerticalCamera);
-            if (distFlg != 0)
-            {
-                distFlg *= -1; //俺セッティング
-                //カメラリンクオブジェクトを中心にカメラを回す
-                objCamera.RotateAround(objPlayer_CameraLink.position, objPlayer_CameraLink.TransformDirection(Vector3.left), cameraRotateSpeed * Time.deltaTime * distFlg);
-                if (objCamera.rotation.eulerAngles.x > 80)
-                {
-                    objCamera.RotateAround(objPlayer_CameraLink.position, objPlayer_CameraLink.TransformDirection(Vector3.left), -cameraRotateSpeed * Time.deltaTime * distFlg);
-                }
-            }
-        }
-        else
-        {
-            //L1ボタンが押されている状態で右スティックを上下に動かす・・・カメラの寄せ／引き 
-            //カメラ前後
-            distFlg = Input.GetAxis(inputNameVerticalCamera);
-            if (distFlg != 0)
-            {
-                cameraDist -= distFlg * cameraRotateSpeed * Time.deltaTime / 10;
-                cameraDist = Mathf.Clamp( cameraDist, 2F, 15F);
-            }
-        }
-
-
-        //=================================================================
-        // ▼▼▼カメラの難しい処理▼▼▼
-        //=================================================================
-        var cameraForward = Vector3.Scale(objCamera.forward, new Vector3(1, 0, 1)).normalized;  //  カメラが追従するための動作
-        Vector3 direction = cameraForward * Input.GetAxis(inputNameVertical) + objCamera.right * Input.GetAxis(inputNameHorizontal);  //  テンキーや3Dスティックの入力（GetAxis）があるとdirectionに値を返す
-
-        //=================================================================
-        //カメラリンクオブジェクトを、カメラから向かって向こうに向ける　　（これをやらないと、カメラを上下に動かすときの回転軸がずれるため）
-        //=================================================================
-        Quaternion tmpQuaternion;
-        //Rigitbodyを指定しないので、スクリプトでY軸固定の処理を入れている
-        tmpQuaternion = Quaternion.LookRotation(objPlayer_CameraLink.position - objCamera.position, Vector3.up);
-        tmpQuaternion.z = 0;
-        tmpQuaternion.x = 0;
-        objPlayer_CameraLink.rotation = Quaternion.Lerp(objPlayer_CameraLink.rotation, tmpQuaternion, 1f);
-
-        //=================================================================
-        //カメラの追随 --- カメラの現在の向きをtmpQuaternionにバックアップし、カメラリンクオブジェクトの位置に移動させ（向きがカメラリンクオブジェクトと同じになる）、向きを戻して、カメラ距離まで引く
-        //=================================================================
-        tmpQuaternion = objCamera.rotation;
-        objCamera.position = this.transform.position;
-        objCamera.rotation = tmpQuaternion;
-        objCamera.position -= objCamera.forward * cameraDist;
-
+        this.transform.eulerAngles = _vec;
+        this.transform.position = _playerTrf.position 
+                                + this.transform.forward * camDist // 後ろ
+                                + this.transform.up * camHeight; // 高さ
+        this.transform.LookAt( _playerTrf, Vector3.up);
 
         //=================================================================
         //　キャラクターとカメラの間に障害物があったら障害物の位置にカメラを移動させる
         //=================================================================
         RaycastHit hit;
-        if (Physics.Linecast(this.transform.position, objCamera.position, out hit))
+        if (Physics.Linecast( _playerTrf.position, this.transform.position, out hit))
         {
-            objCamera.position =  hit.point;
+            this.transform.position =  hit.point;
         }
+    }
 
+    void VerticalProc()
+    {
+        //=================================================================
+        //カメラ移動処理 上下　（L1を押しながらだと、寄せ・引き
+        //=================================================================
+        float _leftVertical = Input.GetAxis(inputNameVerticalCamera);
+        if ( Input.GetButtonDown(inputNameL1))//L1が押されているかどうか
+        {
+            camDist = Mathf.Clamp( camDist , 2F, 10F);
+        }
+        else
+        {
+            camHeight = Mathf.Clamp( camHeight , -5F, 5F);
+        }
+    }
+
+    // カメラ情報をプレイヤーに伝える
+    void SendDirectionForPlayer()
+    {
+        Vector3 _vec = this.transform.eulerAngles;
+        _vec.y = 0F;
+        player.direction = _vec.normalized;
+    }
+
+    // 入力名を取得
+    void GetKeyName()
+    {
+        string _s = Convert.ToString( (int)player.playerTag);
+        inputNameL1 += _s;
+        inputNameHorizontalCamera += _s;
+        inputNameVerticalCamera += _s;
     }
 }
