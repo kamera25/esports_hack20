@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class PlayerController : MonoBehaviour
+public class PlayerMoveController : MonoBehaviour
 {
-    public MeshRenderer invincibleSphere;
-    public GameObject bulletPrefab;
     private CharacterController charaCtrl; 
     private Vector3 moveDirection = Vector3.zero;   //  移動する方向とベクトルの変数（最初は初期化しておく）
     float cameraDist = 5F;
@@ -16,16 +14,12 @@ public class PlayerController : MonoBehaviour
 
     public float gravity = 20.0F;   //重力の強さ（Public＝インスペクタで調整可能）
 
-    private const float FIX_RELOAD_TIME = 3.0f;        //玉がなくなった状態で発射ボタンを押すと、一定時間リロード動作を行う。その時間。
-    private float nowReloadTime = 0F;
-    private float nowInvincibleTime = 0F;
     float ReloadSpeedRatio = 0.3f;  //リロード中に移動速度が遅くなる比率。
     public float moveSpeed = 100.0f;         // 移動速度（Public＝インスペクタで調整可能）
     
     public float kaitenSpeed = 1200.0f;   // プレイヤーの回転速度（Public＝インスペクタで調整可能）
     private float stunAnimeTime = 0F;
 
-    string inputNameFire1 = "Fire_";
     string inputNameVertical = "RightAnalogStick_Y_";
     string inputNameHorizontal = "RightAnalogStick_X_";
     string inputNameJump = "Jump_";
@@ -44,8 +38,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         MovePlayer();
-        InvincibleProc();
-        RespawnChoco();
     }
 
     // プレイヤーの動きに関する処理
@@ -56,7 +48,7 @@ public class PlayerController : MonoBehaviour
         /*=================================================================
         // ▼▼▼移動処理▼▼▼
         //=================================================================*/
-        if ( IsReload() == true)
+        if ( stat.IsReload() == true)
         {　 // Reload時
             charaCtrl.Move(moveDirection * Time.deltaTime * ReloadSpeedRatio);  
         }
@@ -85,9 +77,16 @@ public class PlayerController : MonoBehaviour
         //=================================================================
         if (charaCtrl.isGrounded)    //CharacterControllerの付いているこのオブジェクトが接地している場合の処理
         {
-            moveDirection.y = 0f;  //Y方向への速度をゼロにする
-            moveDirection = stat.direction * moveSpeed;  //移動スピードを向いている方向に与える
-            Debug.Log("Warning");
+            // キーの取得
+            float _vInput = Input.GetAxis(inputNameVertical);
+            float _hInput = Input.GetAxis(inputNameHorizontal);
+
+            // 方向の取得
+            Vector3 _vn = stat.direction;
+            _vn.y = 0F;
+            _vn = _vn.normalized;
+            moveDirection = new Vector3( _vn.x * _hInput * moveSpeed, 0F, _vn.z * _vInput * moveSpeed);
+
             if ( Input.GetButtonDown(inputNameJump) ) //ジャンプボタンが押されている場合
             {
                 moveDirection.y = jumpPower; //Y方向への速度に「ジャンプパワー」の変数を代入する
@@ -110,74 +109,15 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, q, kaitenSpeed * Time.deltaTime);   // 向きを q に向けてじわ～っと変化させる.
     }
 
-    // 無敵時間処理
-    void InvincibleProc()
-    {
-        nowInvincibleTime -= Time.deltaTime;
 
-        if ( stat.isInvincible == true)
-        {
-            // Sphereを表示
-            invincibleSphere.enabled = true;
-
-            if( nowInvincibleTime > 0F)
-            {
-                stat.isInvincible = false;
-            }
-        }
-        else
-        {
-            invincibleSphere.enabled = false;
-        }
-    }
-
-    //チョコボール発射（リロード方式）
-    void RespawnChoco()
-    {
-        nowReloadTime -= Time.deltaTime;
-
-        if( IsReload() == true || !Input.GetButtonDown(inputNameFire1) )
-        {
-            return;
-        }
-
-        if( stat.bulletRemain >= 0F)
-        {
-                // 発射処理
-                Vector3 _pos = this.transform.position + this.transform.forward;
-                GameObject _objBullet = Instantiate( bulletPrefab, _pos, Quaternion.identity);
-                Destroy(_objBullet, 3F);
-
-                // コンポーネントにアタッチ
-                ChocoStatics _chocoStat = _objBullet.GetComponent<ChocoStatics>();
-                _chocoStat.SetOwnPlayer( stat.playerTag);
-
-                // 力を加える
-                Rigidbody rg = _objBullet.GetComponent<Rigidbody>();
-                rg.AddForce(this.transform.forward * 10F, ForceMode.Impulse);
-                stat.bulletRemain--;
-                //SE_BALL.Play();
-        }
-        else
-        {
-            nowReloadTime = FIX_RELOAD_TIME;
-            stat.ResetBullet();
-        }
-    }
 
     // 入力名を取得
     void GetKeyName()
     {
         string _s = Convert.ToString( (int)stat.playerTag);
-        inputNameFire1 += _s;
         inputNameVertical += _s;
         inputNameHorizontal += _s;
         inputNameJump += _s;
-    }
-
-    bool IsReload()
-    {
-        return nowReloadTime > 0F;
     }
 
     bool useMoveKey()
