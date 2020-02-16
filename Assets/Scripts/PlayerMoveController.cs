@@ -19,19 +19,15 @@ public class PlayerMoveController : MonoBehaviour
     
     public float kaitenSpeed = 1200.0f;   // プレイヤーの回転速度（Public＝インスペクタで調整可能）
     private float stunAnimeTime = 0F;
-
-    string inputNameVertical = "RightAnalogStick_Y_";
-    string inputNameHorizontal = "RightAnalogStick_X_";
-    string inputNameJump = "Jump_";
-
+    public GameObject padController;
+    private IVirtualController iController;
 
     // Start is called before the first frame update
     void Start()
     {
         stat = this.GetComponent<PlayerStatics>();
         charaCtrl = this.GetComponent<CharacterController>();
-
-        GetKeyName();
+        iController = padController.GetComponent<IVirtualController>();
     }
 
     // Update is called once per frame
@@ -78,8 +74,8 @@ public class PlayerMoveController : MonoBehaviour
         if (charaCtrl.isGrounded)    //CharacterControllerの付いているこのオブジェクトが接地している場合の処理
         {
             // キーの取得
-            float _vInput = Input.GetAxis(inputNameVertical);
-            float _hInput = Input.GetAxis(inputNameHorizontal);
+            float _vInput = iController.GetMoveVertical();
+            float _hInput = iController.GetMoveHorizontal();
 
             // 方向の取得
             Vector3 _vn = stat.direction;
@@ -87,7 +83,7 @@ public class PlayerMoveController : MonoBehaviour
             _vn = _vn.normalized;
             moveDirection = new Vector3( _vn.x * _hInput * moveSpeed, 0F, _vn.z * _vInput * moveSpeed);
 
-            if ( Input.GetButtonDown(inputNameJump) ) //ジャンプボタンが押されている場合
+            if ( iController.GetJumpButton() ) //ジャンプボタンが押されている場合
             {
                 moveDirection.y = jumpPower; //Y方向への速度に「ジャンプパワー」の変数を代入する
                 //SE_JUMP.Play();
@@ -99,29 +95,8 @@ public class PlayerMoveController : MonoBehaviour
         moveDirection.y -= gravity * Time.deltaTime;  
     }
 
-        
-    //**********************************************************************************************************************:
-    // ■向きを変える動作の処理
-    //**********************************************************************************************************************:
-    void MukiWoKaeru(Vector3 mukitaiHoukou)
-    {
-        Quaternion q = Quaternion.LookRotation(mukitaiHoukou); // 向きたい方角をQuaternion型に直す
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, kaitenSpeed * Time.deltaTime);   // 向きを q に向けてじわ～っと変化させる.
-    }
-
-
-
-    // 入力名を取得
-    void GetKeyName()
-    {
-        string _s = Convert.ToString( (int)stat.playerTag);
-        inputNameVertical += _s;
-        inputNameHorizontal += _s;
-        inputNameJump += _s;
-    }
-
     bool useMoveKey()
     {
-        return Input.GetAxis(inputNameVertical) != 0F || Input.GetAxis(inputNameHorizontal) != 0F;
+        return iController.GetMoveVertical() != 0F || iController.GetCameraHorizontal() != 0F;
     }
 }

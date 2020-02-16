@@ -5,18 +5,19 @@ public class PlayerActionController : MonoBehaviour
 {
     private MeshRenderer invincibleSphere;
     public GameObject bulletPrefab;
-    PlayerStatics stat;
+    private PlayerStatics stat;
     private float nowInvincibleTime = 0F;
     private const float FIX_RELOAD_TIME = 3.0f;        //玉がなくなった状態で発射ボタンを押すと、一定時間リロード動作を行う。その時間。
-    string inputNameFire1 = "Fire_";
+    public GameObject padController;
+    private IVirtualController iController;
 
 
     // Start is called before the first frame update
     void Start()
     {
         stat = this.GetComponent<PlayerStatics>();
+        iController = padController.GetComponent<IVirtualController>();
         invincibleSphere = this.transform.Find("invincibleSphere").GetComponent<MeshRenderer>();
-        GetKeyName();
     }
 
     // Update is called once per frame
@@ -26,7 +27,7 @@ public class PlayerActionController : MonoBehaviour
         RespawnChoco();
     }
 
-        // 無敵時間処理
+    // 無敵時間処理
     void InvincibleProc()
     {
         nowInvincibleTime -= Time.deltaTime;
@@ -52,7 +53,7 @@ public class PlayerActionController : MonoBehaviour
     {
         stat.nowReloadTime -= Time.deltaTime;
 
-        if( stat.IsReload() == true || !Input.GetButtonDown(inputNameFire1) )
+        if( stat.IsReload() == true || !iController.GetFireButton() )
         {
             return;
         }
@@ -79,11 +80,5 @@ public class PlayerActionController : MonoBehaviour
             stat.nowReloadTime = FIX_RELOAD_TIME;
             stat.ResetBullet();
         }
-    }
-
-    void GetKeyName()
-    {
-        string _s = Convert.ToString( (int)stat.playerTag);
-        inputNameFire1 += _s;
     }
 }

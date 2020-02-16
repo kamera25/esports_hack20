@@ -10,15 +10,12 @@ public class PlayerCamera : MonoBehaviour
     float camDeg = 0F;
 
     public PlayerStatics player;
+    public GameObject padController;
+    IVirtualController iController;
 
-    string inputNameL1 = "L1_";
-    string inputNameHorizontalCamera = "LeftAnalogStick_X_";
-    string inputNameVerticalCamera = "LeftAnalogStick_Y_";
-
-    // Start is called before the first frame update
     void Start()
     {
-        GetKeyName();
+        iController = padController.GetComponent<IVirtualController>();
     }
 
     // Update is called once per frame
@@ -36,7 +33,7 @@ public class PlayerCamera : MonoBehaviour
         //=================================================================
         Transform _playerTrf = player.transform;
 
-        camDeg = Mathf.Clamp( Input.GetAxis(inputNameHorizontalCamera) + camDeg, 0F, 360F);
+        camDeg = Mathf.Clamp( iController.GetCameraHorizontal() + camDeg, 0F, 360F);
         Vector3 _vec = new Vector3( 0F, camDeg, 0F);
 
         this.transform.eulerAngles = _vec;
@@ -60,8 +57,8 @@ public class PlayerCamera : MonoBehaviour
         //=================================================================
         //カメラ移動処理 上下　（L1を押しながらだと、寄せ・引き
         //=================================================================
-        float _leftVertical = Input.GetAxis(inputNameVerticalCamera);
-        if ( Input.GetButtonDown(inputNameL1))//L1が押されているかどうか
+        float _leftVertical = iController.GetCameraVertical();
+        if ( iController.GetCameraModeButton())//L1が押されているかどうか
         {
             camDist = Mathf.Clamp( camDist , 2F, 10F);
         }
@@ -77,14 +74,5 @@ public class PlayerCamera : MonoBehaviour
         Vector3 _vec = this.transform.eulerAngles;
         _vec.y = 0F;
         player.direction = _vec.normalized;
-    }
-
-    // 入力名を取得
-    void GetKeyName()
-    {
-        string _s = Convert.ToString( (int)player.playerTag);
-        inputNameL1 += _s;
-        inputNameHorizontalCamera += _s;
-        inputNameVerticalCamera += _s;
     }
 }
