@@ -13,7 +13,7 @@ public class PlayerStatics : MonoBehaviour
     public Player playerTag = Player.one;
 
     public int Hp = 1000;
-    public Vector3 direction = Vector3.zero;
+    public Quaternion myCamDirection = Quaternion.identity;
     int hitCount = 0;
     int ballCount = 0;
     public int bulletRemain = 3;

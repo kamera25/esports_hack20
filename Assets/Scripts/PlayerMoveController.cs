@@ -15,7 +15,7 @@ public class PlayerMoveController : MonoBehaviour
     public float gravity = 20.0F;   //重力の強さ（Public＝インスペクタで調整可能）
 
     float ReloadSpeedRatio = 0.3f;  //リロード中に移動速度が遅くなる比率。
-    public float moveSpeed = 100.0f;         // 移動速度（Public＝インスペクタで調整可能）
+    public float moveSpeed = 40F;         // 移動速度（Public＝インスペクタで調整可能）
     
     public float kaitenSpeed = 1200.0f;   // プレイヤーの回転速度（Public＝インスペクタで調整可能）
     private float stunAnimeTime = 0F;
@@ -46,11 +46,11 @@ public class PlayerMoveController : MonoBehaviour
         //=================================================================*/
         if ( stat.IsReload() == true)
         {　 // Reload時
-            charaCtrl.Move(moveDirection * Time.deltaTime * ReloadSpeedRatio);  
+            charaCtrl.Move(moveDirection * moveSpeed * Time.deltaTime * ReloadSpeedRatio);  
         }
         else
         {
-            charaCtrl.Move(moveDirection * Time.deltaTime);  
+            charaCtrl.Move(moveDirection * moveSpeed * Time.deltaTime );  
         }
 
         if (stunAnimeTime > 0F)
@@ -73,15 +73,7 @@ public class PlayerMoveController : MonoBehaviour
         //=================================================================
         if (charaCtrl.isGrounded)    //CharacterControllerの付いているこのオブジェクトが接地している場合の処理
         {
-            // キーの取得
-            float _vInput = iController.GetMoveVertical();
-            float _hInput = iController.GetMoveHorizontal();
-
-            // 方向の取得
-            Vector3 _vn = stat.direction;
-            _vn.y = 0F;
-            _vn = _vn.normalized;
-            moveDirection = new Vector3( _vn.x * _hInput * moveSpeed, 0F, _vn.z * _vInput * moveSpeed);
+            MoveOnGround();
 
             if ( iController.GetJumpButton() ) //ジャンプボタンが押されている場合
             {
@@ -93,6 +85,23 @@ public class PlayerMoveController : MonoBehaviour
 
         //マイナスのY方向（下向き）に重力を与える
         moveDirection.y -= gravity * Time.deltaTime;  
+    }
+
+    void MoveOnGround()
+    {
+        // キーの取得
+        float _vInput = iController.GetMoveVertical();
+        float _hInput = iController.GetMoveHorizontal();
+
+        // 方向の取得
+        Vector3 _vf = stat.myCamDirection * Vector3.forward * _vInput;
+        Vector3 _vr = stat.myCamDirection * Vector3.right * _hInput;
+        Vector3 _v = _vf + _vr;
+        _v.y = 0F;
+        moveDirection = _v.normalized;
+        
+        // 方向の変更
+        this.transform.LookAt(moveDirection + this.transform.position);
     }
 
     bool useMoveKey()

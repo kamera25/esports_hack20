@@ -8,10 +8,13 @@ public class PlayerCamera : MonoBehaviour
     float camDist = 10F;
     float camHeight = 5F;
     float camDeg = 0F;
+    const float CAMERA_MOVE_SPEED = 0.1F;
 
     public PlayerStatics player;
     public GameObject padController;
     IVirtualController iController;
+
+    int targetLayerMask = 1 << 9;
 
     void Start()
     {
@@ -33,7 +36,7 @@ public class PlayerCamera : MonoBehaviour
         //=================================================================
         Transform _playerTrf = player.transform;
 
-        camDeg = Mathf.Clamp( iController.GetCameraHorizontal() + camDeg, 0F, 360F);
+        camDeg = Mathf.Repeat( iController.GetCameraHorizontal() + camDeg, 360F);
         Vector3 _vec = new Vector3( 0F, camDeg, 0F);
 
         this.transform.eulerAngles = _vec;
@@ -46,7 +49,7 @@ public class PlayerCamera : MonoBehaviour
         //　キャラクターとカメラの間に障害物があったら障害物の位置にカメラを移動させる
         //=================================================================
         RaycastHit hit;
-        if (Physics.Linecast( _playerTrf.position, this.transform.position, out hit))
+        if (Physics.Linecast( _playerTrf.position, this.transform.position, out hit, targetLayerMask))
         {
             this.transform.position =  hit.point;
         }
@@ -60,19 +63,17 @@ public class PlayerCamera : MonoBehaviour
         float _leftVertical = iController.GetCameraVertical();
         if ( iController.GetCameraModeButton())//L1が押されているかどうか
         {
-            camDist = Mathf.Clamp( camDist , 2F, 10F);
+            camHeight = Mathf.Clamp( camHeight + _leftVertical * CAMERA_MOVE_SPEED , 1F, 8F);
         }
         else
         {
-            camHeight = Mathf.Clamp( camHeight , -5F, 5F);
+            camDist = Mathf.Clamp( camDist + _leftVertical * CAMERA_MOVE_SPEED, 5F, 15F);
         }
     }
 
     // カメラ情報をプレイヤーに伝える
     void SendDirectionForPlayer()
     {
-        Vector3 _vec = this.transform.eulerAngles;
-        _vec.y = 0F;
-        player.direction = _vec.normalized;
+        player.myCamDirection = this.transform.rotation;
     }
 }

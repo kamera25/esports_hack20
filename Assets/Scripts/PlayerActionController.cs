@@ -61,7 +61,7 @@ public class PlayerActionController : MonoBehaviour
         if( stat.bulletRemain >= 0F)
         {
                 // 発射処理
-                Vector3 _pos = this.transform.position + this.transform.forward;
+                Vector3 _pos = this.transform.position + this.transform.forward * 3F + Vector3.up;
                 GameObject _objBullet = Instantiate( bulletPrefab, _pos, Quaternion.identity);
                 Destroy(_objBullet, 3F);
 
@@ -71,7 +71,7 @@ public class PlayerActionController : MonoBehaviour
 
                 // 力を加える
                 Rigidbody rg = _objBullet.GetComponent<Rigidbody>();
-                rg.AddForce(this.transform.forward * 10F, ForceMode.Impulse);
+                rg.AddForce(this.transform.forward * 20F, ForceMode.Impulse);
                 stat.bulletRemain--;
                 //SE_BALL.Play();
         }

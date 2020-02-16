@@ -30,7 +30,7 @@ public class KeyboardInputController : MonoBehaviour, IVirtualController
     }
     public bool GetCameraModeButton()
     {
-        return Input.GetKeyDown( KeyCode.Z);
+        return Input.GetKey( KeyCode.Z);
     }
     public bool GetJumpButton()
     {

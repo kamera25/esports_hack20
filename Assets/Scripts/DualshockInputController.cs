@@ -21,22 +21,14 @@ public class DualshockInputController : MonoBehaviour, IVirtualController
         GetKeyName();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public float GetMoveVertical()
     {
         return Input.GetAxis(inputNameVertical);
     }
-
     public float GetMoveHorizontal()
     {
         return Input.GetAxis(inputNameHorizontal);
     }
-
     public float GetCameraVertical()
     {
         return Input.GetAxis(inputNameVerticalCamera);
