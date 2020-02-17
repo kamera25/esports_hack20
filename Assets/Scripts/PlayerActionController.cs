@@ -58,7 +58,7 @@ public class PlayerActionController : MonoBehaviour
             return;
         }
 
-        if( stat.bulletRemain >= 0F)
+        if( stat.bulletRemain > 0)
         {
                 // 発射処理
                 Vector3 _pos = this.transform.position + this.transform.forward * 3F + Vector3.up;

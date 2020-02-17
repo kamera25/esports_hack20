@@ -39,7 +39,7 @@ public class DualshockInputController : MonoBehaviour, IVirtualController
     }
     public bool GetCameraModeButton()
     {
-        return Input.GetButtonDown(inputNameL1);
+        return Input.GetButton(inputNameL1);
     }
     public bool GetJumpButton()
     {
