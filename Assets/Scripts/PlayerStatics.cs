@@ -27,8 +27,13 @@ public class PlayerStatics : MonoBehaviour
 
     void Start()
     {
-        Hp = maxHP;
+        ResetHP();
         ResetBullet();
+    }
+
+    public void ResetHP()
+    {
+        Hp = maxHP;
     }
 
     public void AddHitCount()

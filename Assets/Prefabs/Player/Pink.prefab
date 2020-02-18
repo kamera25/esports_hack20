@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1300161728}
   - component: {fileID: 1300161729}
   - component: {fileID: 8932829329297922392}
+  - component: {fileID: 2113676282}
   m_Layer: 0
   m_Name: Pink
   m_TagString: Player
@@ -58,8 +59,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2, y: 2.62, z: 2}
+  m_Center: {x: 0, y: 2.05, z: 0}
 --- !u!95 &1168888657093459473
 Animator:
   serializedVersion: 3
@@ -109,10 +110,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31fe8c843b7f674fa4eb20a03c08880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTag: 1
+  playerTag: 2
   Hp: 1000
-  direction: {x: 0, y: 0, z: 0}
+  myCamDirection: {x: 0, y: 0, z: 0, w: 1}
   bulletRemain: 3
+  star: 0
+  nowReloadTime: 0
   isInvincible: 0
   nowInvincibleTime: 0
 --- !u!114 &1300161729
@@ -139,13 +142,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a70cf3170c6f3b42a6fdc359f87731d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invincibleSphere: {fileID: 3920688456368876475}
+  jumpPower: 0.4
+  gravity: 0.6
+  moveSpeed: 20
+  kaitenSpeed: 1200
+  padController: {fileID: 0}
+--- !u!114 &2113676282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118535075650281935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36e03cff179930442b9cf373e93bc70f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 714102555248091058, guid: 7f69922cf314e734999b88c2e0a6159a,
     type: 3}
-  jumpPower: 10
-  gravity: 20
-  moveSpeed: 100
-  kaitenSpeed: 1200
+  padController: {fileID: 0}
 --- !u!1001 &2118535074989623702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -211,15 +227,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400040, guid: e1a8a3c0f8ec5214f82b8b790c2e5315, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.05
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400040, guid: e1a8a3c0f8ec5214f82b8b790c2e5315, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.05
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400040, guid: e1a8a3c0f8ec5214f82b8b790c2e5315, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.05
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2000000, guid: e1a8a3c0f8ec5214f82b8b790c2e5315, type: 3}
       propertyPath: m_projectionMatrixMode
@@ -345,12 +361,6 @@ PrefabInstance:
 --- !u!4 &9211452282490284024 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2847442023737429286, guid: 68a1f9a6c6cb0c64cab7210919033ab0,
-    type: 3}
-  m_PrefabInstance: {fileID: 6364011117884795614}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &3920688456368876475 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 7942263986588713317, guid: 68a1f9a6c6cb0c64cab7210919033ab0,
     type: 3}
   m_PrefabInstance: {fileID: 6364011117884795614}
   m_PrefabAsset: {fileID: 0}

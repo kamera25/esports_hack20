@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/VSScene.unity
     guid: 1e3815f6c1f47ab4894426f1d760b509
   - enabled: 1
-    path: Assets/Scenes/ResultScene.unity
+    path: Assets/Scenes/ResultScene_1.unity
     guid: 3ac584e27f3248b46a2744a42dfb2538
+  - enabled: 1
+    path: Assets/Scenes/ResultScene_2.unity
+    guid: 16cb894ff4b40ed42b2639b574db9881
   m_configObjects: {}
