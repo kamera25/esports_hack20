@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3842,7 +3842,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4d5183c9379150d44b9c9cb7fdfd579f, type: 2}
+      objectReference: {fileID: 2100000, guid: 8da372047439d40dbbf418989d225020, type: 2}
     - target: {fileID: 2786549453368332148, guid: bc08fd56bdc3f9d4bb45f0b6e3de461b,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -3852,7 +3852,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4d5183c9379150d44b9c9cb7fdfd579f, type: 2}
+      objectReference: {fileID: 2100000, guid: 8da372047439d40dbbf418989d225020, type: 2}
     - target: {fileID: 2786549453694669634, guid: bc08fd56bdc3f9d4bb45f0b6e3de461b,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -3867,7 +3867,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4d5183c9379150d44b9c9cb7fdfd579f, type: 2}
+      objectReference: {fileID: 2100000, guid: 8da372047439d40dbbf418989d225020, type: 2}
     - target: {fileID: 2786549453833635313, guid: bc08fd56bdc3f9d4bb45f0b6e3de461b,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -3877,7 +3877,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4d5183c9379150d44b9c9cb7fdfd579f, type: 2}
+      objectReference: {fileID: 2100000, guid: 8da372047439d40dbbf418989d225020, type: 2}
     - target: {fileID: 2786549453978592837, guid: bc08fd56bdc3f9d4bb45f0b6e3de461b,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -3887,7 +3887,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4d5183c9379150d44b9c9cb7fdfd579f, type: 2}
+      objectReference: {fileID: 2100000, guid: 8da372047439d40dbbf418989d225020, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc08fd56bdc3f9d4bb45f0b6e3de461b, type: 3}
 --- !u!4 &1729687831 stripped
