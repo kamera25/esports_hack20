@@ -16,7 +16,6 @@ public class PlayerStatics : MonoBehaviour
     public int Hp = 1000;
     public Quaternion myCamDirection = Quaternion.identity;
     int hitCount = 0;
-    int ballCount = 0;
     public int bulletRemain = 3;
     public int star = 0;
     public float nowReloadTime = 0F;
@@ -31,11 +30,6 @@ public class PlayerStatics : MonoBehaviour
         ResetBullet();
     }
 
-    public void ResetHP()
-    {
-        Hp = maxHP;
-    }
-
     public void AddHitCount()
     {
         hitCount++;
@@ -44,11 +38,6 @@ public class PlayerStatics : MonoBehaviour
     public void AddHP( int _hp)
     {
         Hp += _hp;
-    }
-
-    public void ResetBullet()
-    {
-        bulletRemain = FIRST_BULLET_NUM;
     }
 
     public void ResetInvincibleTime()
@@ -71,7 +60,23 @@ public class PlayerStatics : MonoBehaviour
         return (float)Hp / (float) maxHP;
     }
 
-    public void ResetOnRespawnPoint()
+    public void ResetAllStatus()
+    {
+        ResetHP();
+        ResetBullet();
+        ResetOnRespawnPoint();
+    }
+
+    void ResetHP()
+    {
+        Hp = maxHP;
+    }
+    public void ResetBullet()
+    {
+        bulletRemain = FIRST_BULLET_NUM;
+    }
+
+    void ResetOnRespawnPoint()
     {
         this.transform.position = RespawnPoint.transform.position;
         this.transform.rotation = RespawnPoint.transform.rotation;

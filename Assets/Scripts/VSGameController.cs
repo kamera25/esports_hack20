@@ -47,10 +47,8 @@ public class VSGameController : MonoBehaviour
     {
 
         // プレイヤーに行う処理
-        player1.ResetHP();
-        player2.ResetHP();
-        player1.ResetOnRespawnPoint();
-        player2.ResetOnRespawnPoint();
+        player1.ResetAllStatus();
+        player2.ResetAllStatus();
 
         state = STATE.ROUND;
         yield return new WaitForSeconds(2F);
