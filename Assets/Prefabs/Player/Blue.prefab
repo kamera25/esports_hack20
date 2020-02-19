@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!95 &4521911153984988315
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695406333683788532}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fafb103195d3c6144a4b4e3fe5c72b20, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &968806947485823521
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,7 +965,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 968806947485986367}
-  - component: {fileID: 968806947476455927}
   m_Layer: 0
   m_Name: meido_blue
   m_TagString: Untagged
@@ -970,25 +988,6 @@ Transform:
   m_Father: {fileID: 7244386353959967314}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &968806947476455927
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 968806947485823583}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 7737a3d072be57f4c9ff8f25f7e0b5ea, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7244386353959967319
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,12 +999,12 @@ GameObject:
   - component: {fileID: 7244386353959967314}
   - component: {fileID: 7244386353959967313}
   - component: {fileID: 7244386353959967312}
-  - component: {fileID: 7626579228047590793}
   - component: {fileID: 7926074532063945677}
   - component: {fileID: 8786443075230719832}
   - component: {fileID: 8786443075230719833}
   - component: {fileID: 151010906461037248}
   - component: {fileID: 8786443074970818658}
+  - component: {fileID: 6301956945445582544}
   m_Layer: 0
   m_Name: Blue
   m_TagString: Player
@@ -1050,25 +1049,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 2.62, z: 2}
   m_Center: {x: 0, y: 2.05, z: 0}
---- !u!95 &7626579228047590793
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7244386353959967319}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fafb103195d3c6144a4b4e3fe5c72b20, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!143 &7926074532063945677
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1107,6 +1087,7 @@ MonoBehaviour:
   nowReloadTime: 0
   isInvincible: 0
   nowInvincibleTime: 0
+  RespawnPoint: {fileID: 0}
 --- !u!114 &8786443075230719833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1151,6 +1132,25 @@ MonoBehaviour:
   bulletPrefab: {fileID: 714102555248091058, guid: 7f69922cf314e734999b88c2e0a6159a,
     type: 3}
   padController: {fileID: 0}
+--- !u!95 &6301956945445582544
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7244386353959967319}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 7737a3d072be57f4c9ff8f25f7e0b5ea, type: 3}
+  m_Controller: {fileID: 9100000, guid: 6f4c71b775fab0242845cf9692935afb, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &2431439157890339142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1223,6 +1223,12 @@ PrefabInstance:
 --- !u!4 &448689147518180448 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2847442023737429286, guid: 68a1f9a6c6cb0c64cab7210919033ab0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2431439157890339142}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &695406333683788532 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2889236630730718130, guid: 68a1f9a6c6cb0c64cab7210919033ab0,
     type: 3}
   m_PrefabInstance: {fileID: 2431439157890339142}
   m_PrefabAsset: {fileID: 0}

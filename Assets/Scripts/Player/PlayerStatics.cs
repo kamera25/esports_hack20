@@ -20,10 +20,10 @@ public class PlayerStatics : MonoBehaviour
     public int bulletRemain = 3;
     public int star = 0;
     public float nowReloadTime = 0F;
-    public bool isInvincible = false;
     public float nowInvincibleTime = 0F;
     const float FIRST_INVINCIBLE_TIME = 3F;
     const int FIRST_BULLET_NUM = 3;
+    public Transform RespawnPoint;
 
     void Start()
     {
@@ -56,6 +56,11 @@ public class PlayerStatics : MonoBehaviour
         nowInvincibleTime = FIRST_INVINCIBLE_TIME;
     }
 
+    public bool useInvincibleSphere()
+    {
+        return nowInvincibleTime > 0F;
+    }
+
     public bool IsReload()
     {
         return nowReloadTime > 0F;
@@ -65,4 +70,11 @@ public class PlayerStatics : MonoBehaviour
     {
         return (float)Hp / (float) maxHP;
     }
+
+    public void ResetOnRespawnPoint()
+    {
+        this.transform.position = RespawnPoint.transform.position;
+        this.transform.rotation = RespawnPoint.transform.rotation;
+    }
+
 }

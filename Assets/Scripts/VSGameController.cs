@@ -45,10 +45,16 @@ public class VSGameController : MonoBehaviour
 
     IEnumerator StartRound()
     {
-        state = STATE.ROUND;
-        yield return new WaitForSeconds(2F);
+
+        // プレイヤーに行う処理
         player1.ResetHP();
         player2.ResetHP();
+        player1.ResetOnRespawnPoint();
+        player2.ResetOnRespawnPoint();
+
+        state = STATE.ROUND;
+        yield return new WaitForSeconds(2F);
+        
         state = STATE.BATTLE;
         roundNum++;
         ResetTimer();

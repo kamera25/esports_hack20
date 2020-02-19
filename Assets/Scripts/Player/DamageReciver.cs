@@ -15,7 +15,7 @@ public class DamageReciver : MonoBehaviour
     {
         GameObject _hitObject = collision.gameObject;
 
-        if ( _hitObject.CompareTag("ChocoBall"))
+        if ( _hitObject.CompareTag("ChocoBall") && !statics.useInvincibleSphere())
         {
             PlayerStatics.Player _p =  _hitObject.GetComponent<ChocoStatics>().ownPlayer;
             if( _p != statics.playerTag)

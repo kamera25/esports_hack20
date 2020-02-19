@@ -10,7 +10,7 @@ public class PlayerMoveController : MonoBehaviour
     float cameraDist = 5F;
     public float jumpPower = 10.0F;  //ジャンプのスピード
 
-    PlayerStatics stat;
+    private PlayerStatics stat;
 
     public float gravity = 20.0F;   //重力の強さ（Public＝インスペクタで調整可能）
 
@@ -21,6 +21,7 @@ public class PlayerMoveController : MonoBehaviour
     private float stunAnimeTime = 0F;
     public GameObject padController;
     private IVirtualController iController;
+    private Animator animCtr;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,7 @@ public class PlayerMoveController : MonoBehaviour
         stat = this.GetComponent<PlayerStatics>();
         charaCtrl = this.GetComponent<CharacterController>();
         iController = padController.GetComponent<IVirtualController>();
+        animCtr = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -58,15 +60,8 @@ public class PlayerMoveController : MonoBehaviour
             return;
         }
 
-        if ( useMoveKey())  //  テンキーや3Dスティックの入力（GetAxis）がゼロの時の動作
-        {                         
-            // animator.Play("idle");
-        }
-        else //  テンキーや3Dスティックの入力（GetAxis）がゼロではない時の動作
-        {
-//            MukiWoKaeru(direction);  //  向きを変える動作の処理を実行する（後述）
-            //animator.Play("walk");
-        }
+        //  テンキーや3Dスティックの入力（GetAxis）がゼロの時の動作
+        animCtr.SetBool("doMove", useMoveKey());
 
         //=================================================================
         // ▼▼▼ジャンプと落下の処理▼▼▼
@@ -77,6 +72,7 @@ public class PlayerMoveController : MonoBehaviour
 
             if ( iController.GetJumpButton() ) //ジャンプボタンが押されている場合
             {
+                animCtr.SetTrigger("doJump");
                 moveDirection.y = jumpPower; //Y方向への速度に「ジャンプパワー」の変数を代入する
                 //SE_JUMP.Play();
                 return;
@@ -106,6 +102,6 @@ public class PlayerMoveController : MonoBehaviour
 
     bool useMoveKey()
     {
-        return iController.GetMoveVertical() != 0F || iController.GetCameraHorizontal() != 0F;
+        return iController.GetMoveVertical() != 0F || iController.GetMoveHorizontal() != 0F;
     }
 }
