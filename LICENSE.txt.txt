@@ -1,3 +1,10 @@
+プログラム : 江崎 大介
+3Dモデル : sasayori(広島Unity勉強会)
+支援 : kamera25(広島Unity勉強会)
+
+以下ライセンスの基、配布します。
+
+---------------
 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
 Creative Commons Corporation ("Creative Commons") is not a law firm and does
 not provide legal services or legal advice. Distribution of Creative Commons

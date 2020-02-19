@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 3277429915114489163}
   - component: {fileID: 3277429915114489164}
   - component: {fileID: 3277429915114489165}
+  - component: {fileID: 3277429916483430841}
   m_Layer: 5
   m_Name: DisplayUI1
   m_TagString: Untagged
@@ -228,6 +229,25 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &3277429916483430841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3277429915114489166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c0a824388bf734f80514a46dccc62f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpBar1: {fileID: 3277429915272068437}
+  hpBar2: {fileID: 3277429916065886295}
+  timerText: {fileID: 3277429916524067034}
+  star1: {fileID: 3277429916372191799}
+  star2: {fileID: 3277429914952298437}
+  choco1: {fileID: 3277429916539992619}
+  choco2: {fileID: 3277429915802003391}
 --- !u!1 &3277429915212827338
 GameObject:
   m_ObjectHideFlags: 0

@@ -109,9 +109,9 @@ public class VSModeRoundPresenter : MonoBehaviour
     void CloneUIForAllDisplay( GameObject _go, float _destroyTime)
     {
         GameObject _go_canvas2 = Instantiate(_go);
-        _go_canvas2.GetComponent<Canvas>().targetDisplay = 2;
+        _go_canvas2.GetComponent<Canvas>().targetDisplay = 1;
         GameObject _go_canvas3 = Instantiate(_go);
-        _go_canvas2.GetComponent<Canvas>().targetDisplay = 8;
+        _go_canvas3.GetComponent<Canvas>().targetDisplay = 7;
 
         // Destroyの処理
         Destroy(_go, _destroyTime);

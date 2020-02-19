@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class VSModeUIPresenter : MonoBehaviour
@@ -13,8 +11,8 @@ public class VSModeUIPresenter : MonoBehaviour
     public RectTransform star2;
     public RectTransform choco1;
     public RectTransform choco2;
-    public PlayerStatics player1;
-    public PlayerStatics player2; 
+    PlayerStatics player1;
+    PlayerStatics player2; 
     
     const float CHOCO_TILE_SIZE = 40F;
     const float STAR_TILE_SIZE = 40F;
@@ -23,7 +21,12 @@ public class VSModeUIPresenter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        vsController = this.GetComponent<VSGameController>();
+        GameObject _controller = GameObject.FindWithTag("GameController");
+        vsController = _controller.GetComponent<VSGameController>();
+
+        player1 = vsController.player1;
+        player2 = vsController.player2;
+
         choco_posX = choco1.position.x;
     }
 
@@ -31,6 +34,7 @@ public class VSModeUIPresenter : MonoBehaviour
     void Update()
     {
         timerText.text = vsController.nowPlayTime.ToString("00");
+
         hpBar1.fillAmount = player1.GetHPPercent();
         hpBar2.fillAmount = player2.GetHPPercent();
 
@@ -49,6 +53,7 @@ public class VSModeUIPresenter : MonoBehaviour
         _choco.sizeDelta = _size;
     }
 
+    // 星の表示処理
     void PutStar( PlayerStatics _player, RectTransform _star)
     {
         Vector2 _size = _star.sizeDelta;
